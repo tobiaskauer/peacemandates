@@ -151,7 +151,8 @@ let tasks = [
         {key: "Ceasefire", description: "I'm a short description", text: "Ceasefire", modalities: true},
         {key: "PeaceProcess", description: "I'm a short description", text: "Peace Process", modalities: true},
         {key: "CulturalHeritage", description: "I'm a short description", text: "Cultural Heritage Protection", modalities: true},
-        {key: "Mandate_Renewal", description: "I'm a short description", text: "Mandate Renewal", modalities: false }
+        //{key: "Mandate_Renewal", description: "I'm a short description", text: "Mandate Renewal", modalities: false }
+        {key: "UseOfForce", description: "I'm a short description", text: "Use of Force", modalities: true},
       ]
 
     const updateFilters = (changedFilter) => {
