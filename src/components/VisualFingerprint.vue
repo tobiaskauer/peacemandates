@@ -1,19 +1,11 @@
 <template>
   <v-container fluid>
   <span style="font-size: 18pt">Visualizing <strong>{{ resolutions.length }} resolutions</strong>  in <strong>{{ mandates.length }} mandate<span v-if="mandates.length > 1">s</span></strong></span>
-    <p>
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum.
-      <span v-for="modality in modalities" :key="modality.name" style="padding-right: 10px" @click="updateActiveModalities(modality.name)" class="modalityLegend">
-        <svg width="11px" height="11px">
-          <circle v-if="activeModalities.includes(modality.name)" r="5" cx="5" cy="5" :fill="modality.color" opacity=".7"/>
-          <circle v-else r="5" cx="5" cy="5" stroke="white" opacity=".7" />
-        </svg>
-        {{ modality.name }};
-      </span>
-      <br>Circle size (<span><svg width="11px" height="11px"><circle r="5" cx="5" cy="5" fill="white" opacity=".7"/></svg>><svg  width="11px" height="11px"><circle r="3" cx="6" cy="6" fill="white" opacity=".7"/></svg></span>) refers to the occurences of the task in the resolution
-      
-      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-    </p>
+<p><v-btn size="small" color="#FE70DC" :variant="activeModalities.includes('_Monitor') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Monitor')">Monitoring</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>observe</em> compliance or implementation of a task. 
+  <v-btn size="small" color="#23B0DC" :variant="activeModalities.includes('_Assist') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Assist')">Assisting</v-btn>is a modality of engagement, whereby peacekeepers are requested to <em>implement</em> a task or support the government in doing so. 
+  <v-btn size="small" color="#3D7D79" :variant="activeModalities.includes('_Security') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Security')">Securing</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>provide security</em> for a task. 
+  Sometimes, the mandate does not request but <v-btn size="small" color="#EB6057" :variant="activeModalities.includes('_Encouraged') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Encouraged')">encourages</v-btn> engagement in a task. In this case, we code encouraging and do not distinguish between the different modalities of engagement (i.e., monitoring, assisting, or securing).
+</p>
   
   <div style="overflow-x: scroll; padding: 20px 0 " >
   <svg :height="dimensions.svgHeight+'px'" :width="dimensions.svgWidth+'px'">
@@ -330,6 +322,11 @@ const dimensions = computed(() => {
 
   em {
     font-family: monospace;
+  }
+
+  ul.legend {
+    list-style-type: none;
+  list-style-position: outside;
   }
 
   
