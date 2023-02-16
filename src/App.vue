@@ -161,6 +161,7 @@ let tasks = [
     }
 
     const filteredResolutions = computed(() => {
+      
       //if(resolutions.value.length < 0) return false //ignore emty filter sets
     let filtered = resolutions.value
     
@@ -173,6 +174,7 @@ let tasks = [
         })
     }
 
+      console.log(filtered.length)
 
     /*if(filters.countries && filters.countries.length > 0) {
         filtered = filtered.filter(resolution => {
@@ -192,7 +194,8 @@ let tasks = [
         })
     }
 
-    if(filters.tasks) {
+
+    /*if(filters.tasks) { //not neccessary after only displaying selected filters in vis
         filtered = filtered.filter(resolution => {
           let hasAnyTask = false
           filters.tasks.forEach(task => {
@@ -201,6 +204,8 @@ let tasks = [
           return hasAnyTask
         })
     }
+
+    console.log(filtered.length)*/
     return filtered
   })
 

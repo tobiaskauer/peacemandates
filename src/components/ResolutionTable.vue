@@ -92,19 +92,19 @@ import {defineProps, computed, ref} from 'vue'
     }
 
     ._Assist {
-        background: #23B0DC;
+        background: #dc267f;
     }
 
     ._Monitor {
-        background: #FE70DC;
+        background: #648fff;
     }
 
     ._Security {
-        background: #3D7D79;
+        background: #fe6100;
     }
 
     ._Encouraged {
-        background: #EB6057;
+        background: #ffb000;
     }
 
 </style>
