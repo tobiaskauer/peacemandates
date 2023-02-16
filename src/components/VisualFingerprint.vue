@@ -332,6 +332,8 @@ const dimensions = computed(() => {
   list-style-position: outside;
   }
 
+circle { mix-blend-mode: lighten; }
+
   
   </style>
   
