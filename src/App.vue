@@ -94,7 +94,7 @@ const resolutions = ref([])
 let store = ref({
   view: "vis",
   showFilters: true,
-  overlay: false
+  overlay: true
 
 })
 let filters = reactive({
