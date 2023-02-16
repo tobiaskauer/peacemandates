@@ -71,7 +71,7 @@
        <v-main>
           
 
-        <VisualFingerprint v-if="store.view == 'vis'" :resolutions="filteredResolutions" :tasks="tasks" :modalities="modalities"/>
+        <VisualFingerprint v-if="store.view == 'vis'" :resolutions="filteredResolutions" :tasks="tasks" :modalities="modalities" :activeTasks="filters.tasks"/>
         <ResolutionTable v-if="store.view == 'table'" :resolutions="filteredResolutions" :filters="filters" :tasks="tasks"/>
    </v-main>
    </v-app>

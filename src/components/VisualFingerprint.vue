@@ -132,7 +132,7 @@
   
   <script setup>
 import {defineProps, ref, computed, onMounted} from 'vue';
-const props = defineProps(['resolutions','tasks','filters','modalities'])
+const props = defineProps(['resolutions','tasks','filters','modalities', 'activeTasks'])
 
 const highlight = ref({
     display: false,
@@ -159,28 +159,20 @@ const mandates = computed(() => {
       let combinedResolution = {} //create empty object to represent this year
       let resolutionsPerYear = mandateResolutions.filter(resolution => resolution.Year == year)
           resolutionsPerYear.forEach(resolution => { //iterate over all resolutions this year
-            //console.log(resolution.Signature)
             Object.keys(resolution).forEach(key => { //for all keys (includind all task keys)
               if(resolution[key]) {
                 if(props.modalities.some(modality => key.includes(modality.name))) {  //check if current key is modal
                   
-                  if(activeModalities.value.includes("_"+key.split("_")[1])) {  //im not sure what it does rn
+                  if(activeModalities.value.includes("_"+key.split("_")[1])) {  //check if current modal is active
                     if(!combinedResolution[key]) combinedResolution[key] =  []
                     combinedResolution[key].push({resolution: resolution.Signature, mention: resolution[key], date: resolution.Date2})
-                    
-
-                //let count = 1+ (resolution[key].toString().match(/ and /g) || []).length // count number of occuring "," to gauge number of references in resolution
-                
                   }
-                
               } else { 
                   combinedResolution[key] = resolution[key]
               }
-              
               }
             })
           })
-          console.log("end of combined")
       
       combinedResolutions.push(combinedResolution)
     }
@@ -208,14 +200,16 @@ const mandates = computed(() => {
 
 const presentTasks = computed(() => {
   let tasks = props.tasks
+  tasks = tasks.filter(task => props.activeTasks.includes(task.key))
+  return tasks
 
-  tasks.forEach(task => {
+  /*tasks.forEach(task => {
     task.isPresent = false
     props.resolutions.forEach(resolution => {
       if(resolution[task.key]) task.isPresent = true
     })
   })
-  return tasks.filter(task => task.isPresent)
+  return tasks.filter(task => task.isPresent)*/
 })
 
 const dimensions = computed(() => {
