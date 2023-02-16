@@ -23,9 +23,7 @@
       <v-btn block variant="outlined" @click="store.overlay = !store.overlay">
         Explore Peacekeeping Mandates
       </v-btn>
-    </v-card-actions>
-
-      
+    </v-card-actions> 
     </v-card-text>
       </v-card>
       
@@ -62,7 +60,13 @@
        width="400"
      >
     
-     <ResolutionFilters v-if="resolutions.length > 0" :resolutions="resolutions" :filters="filters" :tasks="tasks" @change-filters="updateFilters" @hide-filters="store.showFilters = !store.showFilters"/>
+     <ResolutionFilters
+      v-if="resolutions.length > 0"
+      :resolutions="resolutions"
+      :filters="filters"
+      :tasks="tasks"
+      @change-filters="updateFilters"
+      @hide-filters="store.showFilters = !store.showFilters"/>
      </v-navigation-drawer>
        <v-main>
           
@@ -90,7 +94,7 @@ const resolutions = ref([])
 let store = ref({
   view: "vis",
   showFilters: true,
-  overlay: true
+  overlay: false
 
 })
 let filters = reactive({
@@ -159,9 +163,9 @@ let tasks = [
       if(resolutions.value.length < 0) return false
     let filtered = resolutions.value
     
-    if(filters.mandate) {
+    if(filters.mandates) {
         filtered = filtered.filter(resolution => {
-            if(!filters.mandate.includes(resolution.NamePKO)) { 
+            if(!filters.mandates.includes(resolution.NamePKO)) { 
                 return false
             }
             return true

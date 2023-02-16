@@ -3,9 +3,10 @@
     <div class="d-flex justify-end">
     <v-btn size="x-small" variant="outlined" @click="emit('hideFilters')">Hide Filters</v-btn>
   </div>
-    <v-row v-if="false">
+    <v-row>
       <v-col>
 <strong>Mandates</strong>
+<div class="filterContainer">
               <v-chip-group
                 v-model="selectedMandates"
                 column
@@ -14,14 +15,15 @@
                 >
                 <v-chip 
                   size="small"
-                  v-for="mandate in props.mandates"
-                  :value="mandate.NamePKO"
-                  :key="mandate.NamePKO">{{mandate.NamePKO}} ({{mandate.Country}})</v-chip>
+                  v-for="mandate in mandates"
+                  :value="mandate"
+                  :key="mandate">{{mandate}}</v-chip>
               </v-chip-group>
+            </div>
               </v-col>
               
               </v-row>
-              <v-row>
+        <!--      <v-row>
       <v-col>
 <strong>Countries</strong>
               <v-chip-group
@@ -38,7 +40,7 @@
               </v-chip-group>
               </v-col>
               
-              </v-row>
+              </v-row>-->
               <v-row>
       <v-col>
 <div class="mb-4"><strong>Years</strong></div>
@@ -56,6 +58,7 @@
               <v-row>
       <v-col>
 <strong>Tasks</strong>
+<div class="filterContainer">
               <v-chip-group
                 v-model="selectedTasks"
                 column
@@ -68,6 +71,7 @@
                   :value="task.key"
                   :key="task.key">{{task.text}}</v-chip>
               </v-chip-group>
+            </div>
               </v-col>
               
               </v-row>
@@ -75,24 +79,25 @@
 </template>
 
 <script setup>
-import {ref, watch, defineProps, computed, defineEmits, onMounted} from 'vue';
+import {ref, watch, defineProps, defineEmits, computed, onMounted} from 'vue';
 const props = defineProps(['resolutions', 'mandates','tasks'])
 const emit = defineEmits(['changeFilters','hideFilters'])
 
 let selectedYears = ref([]) //RangeSlider needs primitife array, will not work with rective(). 
-const selectedCountries = ref([])
+//const selectedCountries = ref([])
 const selectedTasks = ref([])
 const selectedMandates  = ref([])
 
-const countries = computed(() => {
-  let allCountries = props.resolutions.map(resolution => resolution.Country)
-  return [...new Set(allCountries)]
+
+
+const mandates = computed(() => {
+  let allMandates = props.resolutions.map(resolution => resolution.NamePKO)
+  return [...new Set(allMandates)]
 })
 
 let filters = {
   mandates: [],
   years: [],
-  countries: [],
   tasks: []
 }
 
@@ -103,7 +108,7 @@ function emitFilters(facette) {
 }
 
 watch(selectedYears, (timeFilter) => emitFilters({years: timeFilter}))
-watch(selectedCountries, (selectedCountries) => emitFilters({countries: selectedCountries}))
+//watch(selectedCountries, (selectedCountries) => emitFilters({countries: selectedCountries}))
 watch(selectedMandates, (selectedMandates) => emitFilters({mandates: selectedMandates}))
 watch(selectedTasks, (selectedTasks) => emitFilters({tasks: selectedTasks}))
 //TODO: adapt to other filters
@@ -118,7 +123,12 @@ onMounted(() => {
   
 })
 
-/*onUpdated(() => {
-  emit('filter');
-})*/
+
 </script>
+
+<style scoped>
+.filterContainer {
+  height:120px;
+  overflow-y: scroll
+}
+</style>
