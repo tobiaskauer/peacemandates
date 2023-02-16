@@ -160,7 +160,7 @@ let tasks = [
     }
 
     const filteredResolutions = computed(() => {
-      if(resolutions.value.length < 0) return false
+      //if(resolutions.value.length < 0) return false //ignore emty filter sets
     let filtered = resolutions.value
     
     if(filters.mandates) {
@@ -173,14 +173,14 @@ let tasks = [
     }
 
 
-    if(filters.countries && filters.countries.length > 0) {
+    /*if(filters.countries && filters.countries.length > 0) {
         filtered = filtered.filter(resolution => {
             if(!filters.countries.includes(resolution.Country)) { 
                 return false
             }
             return true
         })
-    }
+    }*/
 
     if(filters.years && filters.years.length > 0) {
         filtered = filtered.filter(resolution => {
@@ -191,7 +191,7 @@ let tasks = [
         })
     }
 
-    if(filters.tasks && filters.tasks.length > 0) {
+    if(filters.tasks) {
         filtered = filtered.filter(resolution => {
           let hasAnyTask = false
           filters.tasks.forEach(task => {
