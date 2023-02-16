@@ -217,35 +217,60 @@ function storeResolutions(csv) {
 
   csv.forEach((resolution) => {
     //find this resolution in mandates once
-    let resolutionInMandates = mandates.find(mandate => mandate.NamePKO == resolution.NamePKO).resolutions.find(mandatedResolution => resolution.Signature == mandatedResolution.Signature)
-    resolutionInMandates.newTasks = false
+    //let resolutionInMandates = mandates.find(mandate => mandate.NamePKO == resolution.NamePKO).resolutions.find(mandatedResolution => resolution.Signature == mandatedResolution.Signature)
+    //console.log(resolutionInMandates)
+    
     tasks.forEach(task => {
      //iterate over all modalities in all tasks, combine them in one string
       resolution[task.key] = ""
       if(task.modalities) modalities.forEach(modality => {
         if(resolution[task.key+modality.name]) {
           resolution[task.key] += "<span class='"+modality.name+"'>"+modality.name+": "+resolution[task.key+modality.name] + "</span>"
-          resolution.newTasks = true
         }
       })
     })
 
     //if mandate has no new Tasks
-    if(!resolution.Mandate_CompleteAdjustment) { //Alternative Carry Forward suggested by Hannah
-    //if(!resolutionInMandates.newTasks) {
-      //find index of latest resolution in this mandate that had content and move backwards from that index
-      let haystack = mandates.find(mandate => mandate.NamePKO == resolutionInMandates.NamePKO).resolutions
-      let emptyResolutionIndex = haystack.findIndex(mandatedResolution => mandatedResolution.Signature == resolutionInMandates.Signature )
+    if(resolution.Mandate_CompleteAdjustment != 1) { //if there is no complete adjustment of the resolution(Alternative Carry Forward suggested by Hannah)
+      let haystack = mandates.find(mandate => mandate.NamePKO == resolution.NamePKO).resolutions //array of resolutions that contain the resolution we want to inherit from
+      let haystackIndex = haystack.findIndex(hayStackResolution => hayStackResolution.Signature == resolution.Signature) //position of current resolution in csv in the haystack (so we can search backwards from there)
+
+      while(haystack[haystackIndex]) {
+        let priorResolution = haystack[haystackIndex-  1]
+        if(priorResolution) {
+          tasks.forEach(task => {
+            //resolution[task.key] = priorResolution[task.key]
+            
+            if(task.modalities) modalities.forEach(modality => {
+              let mention = priorResolution[task.key+modality.name]
+              
+              if(mention) {
+                if(!mention.toString().includes("inherited")) {
+                  resolution[task.key+modality.name] = mention+" (inherited from " + priorResolution.Signature + ")"
+                } else {
+                  resolution[task.key+modality.name] = mention
+                }
+                //console.log("[",resolution.NamePKO,"] carrying forward:", task.key, modality.name, "from", priorResolution.Signature, "to", resolution.Signature)
+              }
+            })
+          })
+        }
+        haystackIndex--
+      }
+      console.log("--")
+
+      
       
       //carry forward tasks from prior resolution
-      while(haystack[emptyResolutionIndex]) {
+      /*while(haystack[emptyResolutionIndex]) {
         if(haystack[emptyResolutionIndex].newTasks) {
-          let priorResolution =  haystack[emptyResolutionIndex] 
+          let priorResolution =  haystack[emptyResolutionIndex]  <-- this was the problem last time......
           tasks.forEach(task => {
             resolution[task.key] = priorResolution[task.key]
             
             if(task.modalities) modalities.forEach(modality => {
               if(priorResolution[task.key+modality.name]) {
+                if(priorResolution.Signature != resolution.Signature) //added Signature check to ensure that there is an inheritance from a prior resolution (not sure WHY identical resolutions end up this deep here, but here we are)
                 resolution[task.key+modality.name] = priorResolution[task.key+modality.name]+" (inherited from " + priorResolution.Signature + ")"
                 //console.log("[",resolution.NamePKO,"] carrying forward:", task.key, modality.name, "from", priorResolution.Signature, "to", resolution.Signature)
               }
@@ -254,7 +279,7 @@ function storeResolutions(csv) {
           break;
         } 
         emptyResolutionIndex--
-      }
+      }*/
     }
   })
   resolutions.value = csv

@@ -53,7 +53,8 @@
                     :key="modality.name"
                     :cx="10"
                     :cy="k*dimensions.rowHeight/8+dimensions.rowHeight"
-                    :r="resolution[task.key+modality.name].count + 4"
+                    r="5"
+
                     opacity=".7"
                     @mouseover="showTooltip(resolution, task.key+modality.name, $event)"
                     @mouseout="showTooltip(null,null,$event)"
@@ -107,7 +108,17 @@
           {{ tooltip.mandate }} <span style="font-weight: 300">({{ tooltip.country }})</span>
         </div>
         <div class="text-caption">
-          The task <strong  style="font-family: monospace;">{{ tooltip.task }} </strong> in the modality <strong style="font-family: monospace;"> {{ tooltip.modality }} </strong> is mentioned {{ tooltip.count }} time<span v-if="tooltip.count > 1">s</span> in {{ tooltip.year }}.
+          <!--The task <strong  style="font-family: monospace;">{{ tooltip.task }} </strong> in the modality <strong style="font-family: monospace;"> {{ tooltip.modality }} </strong> is mentioned {{ tooltip.count }} time<span v-if="tooltip.count > 1">s</span> in {{ tooltip.year }}.-->
+          <ul>
+          <!--<li v-for="paragraph in tooltip.paragraphs" :key="paragraph.resolution">Signature: {{ paragraph.resolution }}  –-- Mention: {{ paragraph.mention }}</li>-->
+          <li v-for="(paragraph,i) in tooltip.paragraphs" :key="paragraph.resolution+i">
+            Resolution <em>{{paragraph.resolution }}</em> ({{ paragraph.date }})
+            <span v-if="tooltip.modality == 'Encouraged'">encourages <em>{{ tooltip.task }}</em></span>
+            <span v-else>mentions <em>{{ tooltip.task }}</em> in the modality {{ tooltip.modality}}</span>
+            in §{{ paragraph.mention }}
+          </li>
+          
+        </ul>
         </div>
       </div>
     </v-card-item>
@@ -148,21 +159,28 @@ const mandates = computed(() => {
       let combinedResolution = {} //create empty object to represent this year
       let resolutionsPerYear = mandateResolutions.filter(resolution => resolution.Year == year)
           resolutionsPerYear.forEach(resolution => { //iterate over all resolutions this year
+            //console.log(resolution.Signature)
             Object.keys(resolution).forEach(key => { //for all keys (includind all task keys)
               if(resolution[key]) {
                 if(props.modalities.some(modality => key.includes(modality.name))) {  //check if current key is modal
-                  if(activeModalities.value.includes("_"+key.split("_")[1])) {
-                    if(!combinedResolution[key]) combinedResolution[key] =  {count: 1} // start at 6 to mitigate larger modalities (visually  )
-                let count = 1+ (resolution[key].toString().match(/ and /g) || []).length // count number of occuring "," to gauge number of references in resolution
-                combinedResolution[key].count = combinedResolution[key].count + count 
+                  
+                  if(activeModalities.value.includes("_"+key.split("_")[1])) {  //im not sure what it does rn
+                    if(!combinedResolution[key]) combinedResolution[key] =  []
+                    combinedResolution[key].push({resolution: resolution.Signature, mention: resolution[key], date: resolution.Date2})
+                    
+
+                //let count = 1+ (resolution[key].toString().match(/ and /g) || []).length // count number of occuring "," to gauge number of references in resolution
+                
                   }
                 
               } else { 
                   combinedResolution[key] = resolution[key]
               }
+              
               }
             })
           })
+          console.log("end of combined")
       
       combinedResolutions.push(combinedResolution)
     }
@@ -227,9 +245,11 @@ const dimensions = computed(() => {
 
   function showTooltip(resolution, task, event) {
     if(resolution && task) {
+
+      
       event.target.setAttribute("stroke","white")
 
-      console.log(resolution)
+      
 
       tooltip.value.display = true
       tooltip.value.x = event.pageX + 10
@@ -239,11 +259,11 @@ const dimensions = computed(() => {
       tooltip.value.task = props.tasks.find(task => task.key == splitTask[0]).text
       tooltip.value.modality = splitTask[1]
 
+      tooltip.value.paragraphs = resolution[task]
+
       tooltip.value.year = resolution.Year
       tooltip.value.country = resolution.Country
       tooltip.value.mandate = resolution.NamePKO
-
-      tooltip.value.count = resolution[task].count -1
     } else {
       tooltip.value.display = false
       
@@ -303,5 +323,21 @@ const dimensions = computed(() => {
     
     background: white;
   }
+
+
+  .tooltip ul {
+    list-style-type: disc;
+  list-style-position: outside;
+  }
+
+  .tooltip li {
+    border-bottom: 1px solid black;
+  }
+
+  em {
+    font-family: monospace;
+  }
+
+  
   </style>
   
