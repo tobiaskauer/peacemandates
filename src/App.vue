@@ -9,16 +9,16 @@
       cover
     > 
     
-    <v-card-title>Visualizing Conflict Resolution Tasks</v-card-title>
+    <v-card-title>The <strong>Peacekeeping Mandates</strong> Dataset</v-card-title>
   </v-img>
-    <v-card-subtitle class="pt-4">
-      The <strong>Peacekeeping Mandates</strong> Dataset
-    </v-card-subtitle>
+    <!--<v-card-subtitle class="pt-4">
+      Visualizing Conflict Resolution Tasks
+    </v-card-subtitle>-->
     <v-card-text>
-      <div><p style="padding: 10px; border-radius: 10px; border: 1px dashed orange; font-family:monospace; color: orange">Di Salvatore, Jessica, Lundgren, Magnus, Oksamytna, Kseniya, & Smidt, Hannah M. (2022). Introducing the Peacekeeping Mandates (PEMA) dataset. Journal of Conflict Resolution. OnlineFirst. doi: 10.1177/00220027211068897</p></div>
-      <p>United Nations (UN) peacekeeping is a central instrument of international conflict resolution. Since the end of the Cold War, peacekeeping operations engage in an increasing number of ambitious tasks, ranging from reforming security sector institutions to reconciling communities, promoting human rights and organizing elections. The Peacekeeping Mandates (PEMA) dataset provides systematic information on this variation in peacekeepers' tasks.</p>
-      <p>PEMA includes information on 41 different activities that UN Security Council resolutions authorize peacekeeping operations. The dataset currently includes missions in Africa between1991 and 2017 and is currently being updated to include other UN missions outside of Africa. For each mandated activity, it records three categories of engagement: monitoring, assisting and security provision. It also includes information on whether the activity is requested or merely encouraged by the UNSC. The dataset includes "founding" resolutions that establish a PKO, resolutions that extend the mandate of a PKO, resolutions that add or subtract activities, and resolutions that completely overhaul the mandate.</p>
-      <p>In the PEMA dataset, each UN Security Council resolution was coded by two coders and discrepancies were reconciled in accordance to the rules of the codebook. The Codebook and the data (with future updates) can be found on PEMA's <a href="https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.7910%2FDVN%2FOT14Z9&sa=D&sntz=1&usg=AOvVaw02gb-TlNmpT7neLqgj3imq">Data Repository on the Harvard Dataverse.</a></p>
+      <div><p style="padding: 10px; border-radius: 10px; border: 1px dashed orange; font-family:monospace; color: orange">Di Salvatore, Jessica, Lundgren, Magnus, Oksamytna, Kseniya, & Smidt, Hannah M. (2022). Introducing the Peacekeeping Mandates (PEMA) Dataset. <a href="https://doi.org/10.1177/00220027211068897">Journal of Conflict Resolution</a> 66 (4-5): 924-951.</p></div>
+      <p>Since the end of the Cold War, UN peacekeeping operations have been given an increasing num-ber of ambitious tasks, ranging from promoting human rights to organizing elections. </p>
+      <p>Drawing on UN Security Council resolutions that establish, extend, or revise mandates of 48 UN peacekeeping operations in 1991–2016, the Peacekeeping Mandates (PEMA) Dataset records 41 distinct tasks, three modalities of engagement (monitoring, assisting, and securing), and whether the task is requested or encouraged.</p>
+      <p>The Codebook and the data (with future updates) can be found on the <a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/OT14Z9">Harvard Dataverse</a>.</p>
       <v-card-actions>
       <v-btn block variant="outlined" @click="store.overlay = !store.overlay">
         Explore Peacekeeping Mandates

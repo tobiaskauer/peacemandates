@@ -229,6 +229,8 @@ const dimensions = computed(() => {
     if(resolution && task) {
       event.target.setAttribute("stroke","white")
 
+      console.log(resolution)
+
       tooltip.value.display = true
       tooltip.value.x = event.pageX + 10
       tooltip.value.y = event.pageY -5
