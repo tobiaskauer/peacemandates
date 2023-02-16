@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
   <span style="font-size: 18pt">Visualizing <strong>{{ resolutions.length }} resolutions</strong>  in <strong>{{ mandates.length }} mandate<span v-if="mandates.length > 1">s</span></strong></span>
-<p><v-btn size="small" color="#FE70DC" :variant="activeModalities.includes('_Monitor') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Monitor')">Monitoring</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>observe</em> compliance or implementation of a task. 
-  <v-btn size="small" color="#23B0DC" :variant="activeModalities.includes('_Assist') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Assist')">Assisting</v-btn>is a modality of engagement, whereby peacekeepers are requested to <em>implement</em> a task or support the government in doing so. 
-  <v-btn size="small" color="#3D7D79" :variant="activeModalities.includes('_Security') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Security')">Securing</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>provide security</em> for a task. 
-  Sometimes, the mandate does not request but <v-btn size="small" color="#EB6057" :variant="activeModalities.includes('_Encouraged') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Encouraged')">encourages</v-btn> engagement in a task. In this case, we code encouraging and do not distinguish between the different modalities of engagement (i.e., monitoring, assisting, or securing).
+<p><v-btn size="small" color="#648fff" :variant="activeModalities.includes('_Monitor') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Monitor')">Monitoring</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>observe</em> compliance or implementation of a task. 
+  <v-btn size="small" color="#dc267f" :variant="activeModalities.includes('_Assist') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Assist')">Assisting</v-btn>is a modality of engagement, whereby peacekeepers are requested to <em>implement</em> a task or support the government in doing so. 
+  <v-btn size="small" color="#fe6100" :variant="activeModalities.includes('_Security') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Security')">Securing</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>provide security</em> for a task. 
+  Sometimes, the mandate does not request but <v-btn size="small" color="#ffb000" :variant="activeModalities.includes('_Encouraged') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Encouraged')">encourages</v-btn> engagement in a task. In this case, we code encouraging and do not distinguish between the different modalities of engagement (i.e., monitoring, assisting, or securing).
 </p>
   
   <div style="overflow-x: scroll; padding: 20px 0 " >
@@ -45,7 +45,7 @@
                     :key="modality.name"
                     :cx="10"
                     :cy="k*dimensions.rowHeight/8+dimensions.rowHeight"
-                    r="5"
+                    r="7"
 
                     opacity=".7"
                     @mouseover="showTooltip(resolution, task.key+modality.name, $event)"
@@ -78,7 +78,7 @@
        
         >{{task.text}}</text>
       <!--<text :x="dimensions.textMargin-20" :y="dimensions.rowHeight" font-size="7pt" text-anchor="end" fill="white">{{task.text}}</text>-->
-      <line x1="0" :x2="dimensions.svgWidth" y1="0" y2="0" stroke="rgba(255,255,255,.1)" />   
+      <line x1="0" :x2="dimensions.svgWidth" y1="5" y2="5" stroke="rgba(255,255,255,.1)" />   
     </g>
   </g>
 
@@ -206,7 +206,7 @@ const presentTasks = computed(() => {
 
 const dimensions = computed(() => {
   let dimensions = {}
-  dimensions.rowHeight = 20
+  dimensions.rowHeight = 25
   dimensions.topMargin = 50
   dimensions.textMargin = 250
   dimensions.svgHeight = presentTasks.value.length * (dimensions.rowHeight + 5) + dimensions.topMargin

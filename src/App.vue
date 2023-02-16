@@ -102,10 +102,10 @@ let filters = reactive({
 })
 
 let modalities = [
-            {name: "_Assist", color: "#23B0DC"},
-            {name: "_Monitor", color: "#FE70DC"},
-            {name: "_Security", color: "#3D7D79"},
-            {name: "_Encouraged", color: "#EB6057"}
+            {name: "_Assist", color:"#dc267f", OldColor: "#23B0DC"},
+            {name: "_Monitor", color:"#648fff", OldColor: "#FE70DC"},
+            {name: "_Security", color:"#fe6100", OldColor: "#3D7D79"},
+            {name: "_Encouraged", color:"#ffb000", OldColor: "#EB6057"}
         ]
 let tasks = [
         {key: "DisarmDemob", description: "I'm a short description", text: "Disarmament & Demobilization", modalities: true},
