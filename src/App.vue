@@ -24,6 +24,9 @@
         Explore Peacekeeping Mandates
       </v-btn>
     </v-card-actions> 
+    <p><small style="font-family: monospace">We gratefully acknowledge funding from Folke Bernadotte Academy (dnr. 19-00288) and Higher Education Innovation Fund by UK Research and Education awarded through City, University of London (project no. 717113).</small></p>
+      
+      <v-btn size="x-small" variant="plain" color="lighten"> <a href="https://tobiaskauer.org">Visualization & Design byTobias Kauer</a></v-btn>
     </v-card-text>
       </v-card>
       
@@ -69,8 +72,6 @@
       @hide-filters="store.showFilters = !store.showFilters"/>
      </v-navigation-drawer>
        <v-main>
-          
-
         <VisualFingerprint v-if="store.view == 'vis'" :resolutions="filteredResolutions" :tasks="tasks" :modalities="modalities" :activeTasks="filters.tasks"/>
         <ResolutionTable v-if="store.view == 'table'" :resolutions="filteredResolutions" :filters="filters" :tasks="tasks"/>
    </v-main>
@@ -174,38 +175,12 @@ let tasks = [
         })
     }
 
-      console.log(filtered.length)
-
-    /*if(filters.countries && filters.countries.length > 0) {
-        filtered = filtered.filter(resolution => {
-            if(!filters.countries.includes(resolution.Country)) { 
-                return false
-            }
-            return true
-        })
-    }*/
-
     if(filters.years && filters.years.length > 0) {
         filtered = filtered.filter(resolution => {
-            if(resolution.Year > filters.years[1] || resolution.Year < filters.years[0]) {
-                return false
-            }
+            if(resolution.Year > filters.years[1] || resolution.Year < filters.years[0]) return false
             return true
         })
     }
-
-
-    /*if(filters.tasks) { //not neccessary after only displaying selected filters in vis
-        filtered = filtered.filter(resolution => {
-          let hasAnyTask = false
-          filters.tasks.forEach(task => {
-            if(resolution[task] != "") hasAnyTask = true
-          })
-          return hasAnyTask
-        })
-    }
-
-    console.log(filtered.length)*/
     return filtered
   })
 
@@ -231,7 +206,8 @@ function storeResolutions(csv) {
       resolution[task.key] = ""
       if(task.modalities) modalities.forEach(modality => {
         if(resolution[task.key+modality.name]) {
-          resolution[task.key] += "<span class='"+modality.name+"'>"+modality.name+": "+resolution[task.key+modality.name] + "</span>"
+          resolution[task.key] += "<span class='"+modality.name+"'>"+modality.name.substring(1)+": §"+resolution[task.key+modality.name] + "</span>"
+          
         }
       })
     })
@@ -252,7 +228,10 @@ function storeResolutions(csv) {
               
               if(mention) {
                 if(!mention.toString().includes("inherited")) {
-                  resolution[task.key+modality.name] = mention+" (inherited from " + priorResolution.Signature + ")"
+                  resolution[task.key+modality.name] = "inherited from" + priorResolution.Signature + " " + mention
+                  /*if(resolution.NamePKO == "UNOCI" && resolution.Year == 2004) {
+                    console.log(resolution.Signature)
+                  }*/
                 } else {
                   resolution[task.key+modality.name] = mention
                 }
@@ -263,29 +242,6 @@ function storeResolutions(csv) {
         }
         haystackIndex--
       }
-      console.log("--")
-
-      
-      
-      //carry forward tasks from prior resolution
-      /*while(haystack[emptyResolutionIndex]) {
-        if(haystack[emptyResolutionIndex].newTasks) {
-          let priorResolution =  haystack[emptyResolutionIndex]  <-- this was the problem last time......
-          tasks.forEach(task => {
-            resolution[task.key] = priorResolution[task.key]
-            
-            if(task.modalities) modalities.forEach(modality => {
-              if(priorResolution[task.key+modality.name]) {
-                if(priorResolution.Signature != resolution.Signature) //added Signature check to ensure that there is an inheritance from a prior resolution (not sure WHY identical resolutions end up this deep here, but here we are)
-                resolution[task.key+modality.name] = priorResolution[task.key+modality.name]+" (inherited from " + priorResolution.Signature + ")"
-                //console.log("[",resolution.NamePKO,"] carrying forward:", task.key, modality.name, "from", priorResolution.Signature, "to", resolution.Signature)
-              }
-            })
-          })
-          break;
-        } 
-        emptyResolutionIndex--
-      }*/
     }
   })
   resolutions.value = csv

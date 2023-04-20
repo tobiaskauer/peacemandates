@@ -2,11 +2,11 @@
   <v-container fluid>
     <v-row>
       <v-col class="v-col-sm-12 v-col-md-12 v-col-lg-12 v-col-xl-8">
-  <span style="font-size: 18pt">Visualizing <strong>{{ resolutions.length }} resolutions</strong>  in <strong>{{ mandates.length }} mandate<span v-if="mandates.length > 1">s</span></strong></span>
-<p><v-btn size="small" color="#648fff" :variant="activeModalities.includes('_Monitor') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Monitor')">Monitoring</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>observe</em> compliance or implementation of a task. 
-  <v-btn size="small" color="#dc267f" :variant="activeModalities.includes('_Assist') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Assist')">Assisting</v-btn>is a modality of engagement, whereby peacekeepers are requested to <em>implement</em> a task or support the government in doing so. 
-  <v-btn size="small" color="#fe6100" :variant="activeModalities.includes('_Security') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Security')">Securing</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>provide security</em> for a task. 
-  Sometimes, the mandate does not request but <v-btn size="small" color="#ffb000" :variant="activeModalities.includes('_Encouraged') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Encouraged')">encourages</v-btn> engagement in a task. In this case, we code encouraging and do not distinguish between the different modalities of engagement (i.e., monitoring, assisting, or securing).
+  <span style="font-size: 18pt">Visualizing <strong>{{ resolutions.length }} resolutions</strong>  in <strong>{{ mandates.length }} mission<span v-if="mandates.length > 1">s</span></strong></span>
+<p><v-btn size="small" color="#648fff" :variant="activeModalities.includes('_Monitor') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Monitor')"><v-icon icon="mdi-circle" />Monitoring</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>observe</em> compliance or implementation of a task.<br> 
+  <v-btn size="small" color="#dc267f" :variant="activeModalities.includes('_Assist') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Assist')"><v-icon icon="mdi-circle" />Assisting</v-btn>is a modality of engagement, whereby peacekeepers are requested to <em>implement</em> a task or support the government in doing so. <br>
+  <v-btn size="small" color="#fe6100" :variant="activeModalities.includes('_Security') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Security')"><v-icon icon="mdi-circle" />Securing</v-btn> is a modality of engagement, whereby peacekeepers are requested to <em>provide security</em> for a task. <br>
+  Sometimes, the mandate does not request but <v-btn size="small" color="#ffb000" :variant="activeModalities.includes('_Encouraged') ? 'tonal' : 'outlined'" @click="updateActiveModalities('_Encouraged')"><v-icon icon="mdi-circle" />encourages</v-btn> engagement in a task. In this case, we code encouraging and do not distinguish between the different modalities of engagement (i.e., monitoring, assisting, or securing).
 </p>
 </v-col>
 </v-row>
@@ -107,10 +107,19 @@
           <ul>
           <!--<li v-for="paragraph in tooltip.paragraphs" :key="paragraph.resolution">Signature: {{ paragraph.resolution }}  –-- Mention: {{ paragraph.mention }}</li>-->
           <li v-for="(paragraph,i) in tooltip.paragraphs" :key="paragraph.resolution+i">
-            Resolution <em>{{paragraph.resolution }}</em> ({{ paragraph.date }})
-            <span v-if="tooltip.modality == 'Encouraged'">encourages <em>{{ tooltip.task }}</em></span>
-            <span v-else>mentions <em>{{ tooltip.task }}</em> in the modality {{ tooltip.modality}}</span>
-            in §{{ paragraph.mention }}
+            <div v-if="paragraph.mention && paragraph.mention.includes('inherited')">
+              Resolution <em>{{paragraph.resolution }}</em> ({{ paragraph.date }}) does not 
+              <span v-if="tooltip.modality == 'Encouraged'">encourage <em>{{ tooltip.task }}</em></span>
+              <span v-else>mention <em>{{ tooltip.task }}</em> in the modality {{ tooltip.modality}}</span>
+              but it is {{ paragraph.mention }}.
+            </div>
+            <div v-else>
+              Resolution <em>{{paragraph.resolution }}</em> ({{ paragraph.date }})
+              <span v-if="tooltip.modality == 'Encouraged'">encourages <em>{{ tooltip.task }}</em></span>
+              <span v-else>mentions <em>{{ tooltip.task }}</em> in the modality {{ tooltip.modality}}</span>
+              in §{{ paragraph.mention }}
+            </div>
+            
           </li>
           
         </ul>
@@ -121,7 +130,7 @@
 
       </v-card>
     
-      
+      <div class="wobble" style="position: fixed; top: 80%; right: 10px;"><v-icon color="white" icon="mdi-arrow-right-circle-outline" /></div>
     </v-container>
   </template>
   
@@ -160,7 +169,7 @@ const mandates = computed(() => {
                   
                   if(activeModalities.value.includes("_"+key.split("_")[1])) {  //check if current modal is active
                     if(!combinedResolution[key]) combinedResolution[key] =  []
-                    combinedResolution[key].push({resolution: resolution.Signature, mention: resolution[key], date: resolution.Date2})
+                    combinedResolution[key].push({resolution: resolution.Signature, mention: String(resolution[key]), date: resolution.Date2})
                   }
               } else { 
                   combinedResolution[key] = resolution[key]
@@ -218,6 +227,8 @@ const dimensions = computed(() => {
 
   return dimensions
   })
+
+
 
 
   const tooltip = ref({
@@ -333,6 +344,18 @@ const dimensions = computed(() => {
   }
 
 circle { mix-blend-mode: lighten; }
+.wobble {
+  animation: wobble 2s ease infinite;
+}
+@keyframes wobble {
+  0% { transform: translateX(0%); }
+  15% { transform: translateX(-25%) rotate(-5deg); }
+  30% { transform: translateX(20%) rotate(3deg); }
+  45% { transform: translateX(-15%) rotate(-3deg); }
+  60% { transform: translateX(10%) rotate(2deg); }
+  75% { transform: translateX(-5%) rotate(-1deg); }
+  100% { transform: translateX(0%); }
+}
 
   
   </style>

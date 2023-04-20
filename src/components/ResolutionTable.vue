@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <span style="font-size: 18pt">Listing <strong>{{ sortedResolutions.length }} resolutions</strong>  in <strong>{{ mandates.length }} mandate<span v-if="mandates.length > 1">s</span></strong></span>
+        <span style="font-size: 18pt">Listing <strong>{{ sortedResolutions.length }} resolution<span v-if="sortedResolutions.length > 1">s</span></strong>  in <strong>{{ mandates.length }} mission<span v-if="mandates.length > 1">s</span></strong></span>
         
         <div class="v-data-table__wrapper">
         <v-table fixed-header height="100vh" v-if="sortedResolutions">
@@ -23,7 +23,7 @@
             
             <tbody>
             <tr v-for="resolution in sortedResolutions" :key="resolution.Signature">
-                <td v-for="header in headers" :key="header.key" v-html="resolution[header.key]" />
+                <td v-for="header in headers" :key="header.key">{{ resolution[header.key] }}</td>
             </tr>
             </tbody>
         </v-table>
