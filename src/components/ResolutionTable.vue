@@ -23,7 +23,7 @@
             
             <tbody>
             <tr v-for="resolution in sortedResolutions" :key="resolution.Signature">
-                <td v-for="header in headers" :key="header.key">{{ resolution[header.key] }}</td>
+                <td v-for="header in headers" :key="header.key" v-html="resolution[header.key]"></td>
             </tr>
             </tbody>
         </v-table>
@@ -91,19 +91,19 @@ import {defineProps, computed, ref} from 'vue'
         font-weight: normal;
     }
 
-    ._Assist {
+    ._assist {
         background: #dc267f;
     }
 
-    ._Monitor {
+    ._monitor {
         background: #648fff;
     }
 
-    ._Security {
+    ._security {
         background: #fe6100;
     }
 
-    ._Encouraged {
+    ._encouraged {
         background: #ffb000;
     }
 

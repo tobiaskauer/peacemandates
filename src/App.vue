@@ -103,10 +103,10 @@ let filters = reactive({
 })
 
 let modalities = [
-            {name: "_Assist", color:"#dc267f", OldColor: "#23B0DC"},
-            {name: "_Monitor", color:"#648fff", OldColor: "#FE70DC"},
-            {name: "_Security", color:"#fe6100", OldColor: "#3D7D79"},
-            {name: "_Encouraged", color:"#ffb000", OldColor: "#EB6057"}
+            {name: "_assist", color:"#dc267f", OldColor: "#23B0DC"},
+            {name: "_monitor", color:"#648fff", OldColor: "#FE70DC"},
+            {name: "_security", color:"#fe6100", OldColor: "#3D7D79"},
+            {name: "_encouraged", color:"#ffb000", OldColor: "#EB6057"}
         ]
 let tasks = [
         {key: "DisarmDemob", description: "I'm a short description", text: "Disarmament & Demobilization", modalities: true},
@@ -156,6 +156,11 @@ let tasks = [
         {key: "UseOfForce", description: "I'm a short description", text: "Use of Force", modalities: true},
       ]
 
+      tasks = tasks.map(task => {
+        task.key = task.key.toLowerCase()
+        return task
+      })
+
     const updateFilters = (changedFilter) => {
       let keys = Object.keys(changedFilter) //iterate over keys for deep reactivity
       if(keys.length > 0) keys.forEach(key => filters[key] = changedFilter[key]) 
@@ -200,6 +205,8 @@ function storeResolutions(csv) {
     //find this resolution in mandates once
     //let resolutionInMandates = mandates.find(mandate => mandate.NamePKO == resolution.NamePKO).resolutions.find(mandatedResolution => resolution.Signature == mandatedResolution.Signature)
     //console.log(resolutionInMandates)
+
+    
     
     tasks.forEach(task => {
      //iterate over all modalities in all tasks, combine them in one string
@@ -248,7 +255,8 @@ function storeResolutions(csv) {
 }
 
 onMounted(() => {
-  let csv = require('@/assets/PEMA_raw_v2.csv')
+  //let csv = require('@/assets/PEMA_raw_v2.csv')
+  let csv = require('@/assets/PEMA_For_Website_v2.csv')
   storeResolutions(csv)
   document.title = "Peacekeeping Mandates Dataset"
 })

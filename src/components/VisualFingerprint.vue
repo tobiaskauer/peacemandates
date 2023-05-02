@@ -152,6 +152,7 @@ const highlight = ref({
 const mandates = computed(() => {
   let pkos =props.resolutions.map(resolution => resolution.NamePKO)
   let uniquePkos = [...new Set(pkos)]
+  
 
   let mandates = uniquePkos.map(mandateName => {
     let mandateResolutions = props.resolutions.filter(resolution => resolution.NamePKO == mandateName)
@@ -179,6 +180,9 @@ const mandates = computed(() => {
           })
       
       combinedResolutions.push(combinedResolution)
+      
+  
+      
     }
 
     return {
