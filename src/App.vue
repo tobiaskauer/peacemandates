@@ -157,7 +157,7 @@ let tasks = [
       ]
 
       tasks = tasks.map(task => {
-        task.key = task.key.toLowerCase()
+        task.key = task.key.toLowerCase() //hotfix to fit new data
         return task
       })
 
@@ -192,14 +192,14 @@ let tasks = [
 
 function storeResolutions(csv) {
   //combine resolutions to mandates to carry forward tasks
-  let pkos = csv.map(resolution => resolution.NamePKO)
-  let uniquePkos = [...new Set(pkos)]
+  //let pkos = csv.map(resolution => resolution.NamePKO)
+  /*let uniquePkos = [...new Set(pkos)]
   let mandates = uniquePkos.map(pko => {
     return {
       NamePKO: pko,
       resolutions: csv.filter(resolution => resolution.NamePKO == pko)
     }
-  })
+  })*/
 
   csv.forEach((resolution) => {
     //find this resolution in mandates once
@@ -220,7 +220,7 @@ function storeResolutions(csv) {
     })
 
     //if mandate has no new Tasks
-    if(resolution.Mandate_CompleteAdjustment != 1) { //if there is no complete adjustment of the resolution(Alternative Carry Forward suggested by Hannah)
+    /*if(resolution.Mandate_CompleteAdjustment != 1) { //if there is no complete adjustment of the resolution(Alternative Carry Forward suggested by Hannah)
       let haystack = mandates.find(mandate => mandate.NamePKO == resolution.NamePKO).resolutions //array of resolutions that contain the resolution we want to inherit from
       let haystackIndex = haystack.findIndex(hayStackResolution => hayStackResolution.Signature == resolution.Signature) //position of current resolution in csv in the haystack (so we can search backwards from there)
 
@@ -236,9 +236,7 @@ function storeResolutions(csv) {
               if(mention) {
                 if(!mention.toString().includes("inherited")) {
                   resolution[task.key+modality.name] = "inherited from" + priorResolution.Signature + " " + mention
-                  /*if(resolution.NamePKO == "UNOCI" && resolution.Year == 2004) {
-                    console.log(resolution.Signature)
-                  }*/
+                  
                 } else {
                   resolution[task.key+modality.name] = mention
                 }
@@ -249,7 +247,7 @@ function storeResolutions(csv) {
         }
         haystackIndex--
       }
-    }
+    }*/
   })
   resolutions.value = csv
 }
