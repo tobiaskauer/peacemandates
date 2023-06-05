@@ -254,6 +254,7 @@ function showTooltip(resolution, task, event) {
 
     tooltip.value.textv3 = resolution[task][0].mention
 
+
     tooltip.value.display = true
     tooltip.value.x = event.pageX + 10
     tooltip.value.y = event.pageY - 5
