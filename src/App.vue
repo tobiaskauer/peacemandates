@@ -248,7 +248,8 @@ function storeResolutions(csv) {
 onMounted(() => {
   //let csv = require('@/assets/PEMA_raw_v2.csv')
   //let csv = require('@/assets/PEMA_For_Website_v2.csv')
-  let csv = require('@/assets/PEMA_For_Website_v3.csv')
+  //let csv = require('@/assets/PEMA_For_Website_v3.csv')
+  let csv = require('@/assets/PEMA_For_Website_v4.csv')
   storeResolutions(csv)
   document.title = "Peacekeeping Mandates Dataset"
 })
